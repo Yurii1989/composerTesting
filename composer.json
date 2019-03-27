@@ -1,0 +1,22 @@
+{
+    "name": "yurii/oop-practice",
+    "description": "just a practice with OOP PHP and composer libraries",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">= 7.3.1",
+        "ext-pdo": "*",
+        "symfony/routing": "^4.2@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.3.1"
+        }
+    }
+}
