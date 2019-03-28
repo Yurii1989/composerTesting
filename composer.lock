@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2065bbb6c1cbccec71f2353de7428ba8",
+    "content-hash": "da6371cd1b10202c360f5b57360a831d",
     "packages": [
         {
             "name": "symfony/routing",
@@ -93,7 +93,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">= 7.3.1",
+        "php": ">= 7.0",
         "ext-pdo": "*"
     },
     "platform-dev": [],

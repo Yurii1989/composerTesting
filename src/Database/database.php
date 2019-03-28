@@ -5,28 +5,27 @@ require_once __DIR__.'/../../config/bootstrap.php';
 
 class database
 {
-    private static $instance = null;
-    private $connection = [];
+    private static $connection;
+    private static $configuration;
 
-    private function setConnection($dbconnect) {
-        $this->connection = new \PDO(
-            sprintf('%s:dbname=%s;host=%s;port=%s',
-                $dbconnect['engine'],
-                $dbconnect['dbname'],
-                $dbconnect['host'],
-                $dbconnect['port']),
-            $dbconnect['username'],
-            $dbconnect['password']
-        );
-    }
-    public static function getInstance() {
-        if (!self::$instance) {
-            self::$instance = new database();
+    public static function getConnection() {
+        if (self::$connection) {
+            return self::$connection;
         }
-        return self::$instance;
+        self::$connection = new \PDO(
+            sprintf('%s:host=%s;dbname%s;port=%s',
+                self::$configuration['driver'],
+                self::$configuration['host'],
+                self::$configuration['dbname'],
+                self::$configuration['port']),
+            self::$configuration['user'],
+            self::$configuration['password']
+        );
+        return self::$connection;
     }
-    public function getConnection()
+
+    public static function setConfig(array $configuration)
     {
-        return $this->connection;
+        self::$configuration = $configuration;
     }
 }

@@ -3,7 +3,7 @@
 return [
     'DB' => [
         "engine" => "mysql",
-        "dbname" => "testing",
+        "dbname" => "parkslot",
         "host" => "localhost",
         "port" => 3306,
         "name" => "root",
