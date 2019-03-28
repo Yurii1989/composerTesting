@@ -13,7 +13,7 @@ class database
             return self::$connection;
         }
         self::$connection = new \PDO(
-            sprintf('%s:host=%s;dbname%s;port=%s',
+            sprintf('%s:host=%s;dbname=%s;port=%s',
                 self::$configuration['driver'],
                 self::$configuration['host'],
                 self::$configuration['dbname'],

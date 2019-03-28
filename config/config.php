@@ -2,11 +2,11 @@
 
 return [
     'DB' => [
-        "engine" => "mysql",
+        "driver" => "mysql",
         "dbname" => "parkslot",
         "host" => "localhost",
         "port" => 3306,
-        "name" => "root",
+        "user" => "root",
         "password" => ""
     ]
 ];

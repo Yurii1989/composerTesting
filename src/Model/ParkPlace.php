@@ -15,8 +15,8 @@ class ParkPlace implements CrudInterface
 public function create(array $fieldValues): int
 {
     $connection = database::getConnection();
-    $stmt = $connection->prepare('INSERT INTO parkplace SET type = :type,
-                          number = :number, occupied = :occupied');
+    $stmt = $connection->prepare('INSERT INTO parkplace(type, number, occupied) 
+  VALUE (:type, :number, :occupied)');
     foreach (['type', 'number', 'occupied'] as $placeholder) {
         if (!isset($fieldValues[$placeholder])){
         $stmt->bindParam($placeholder, $this->$placeholder);
@@ -70,12 +70,30 @@ public static function readAll(): array
 
 public function update(int $id, array $fieldValues): bool
 {
-    // TODO: Implement update() method.
+    $connection = database::getConnection();
+    $stmt = $connection->prepare('UPDATE parkplace SET type = :type,
+                     number = :number,
+                     occupied = :occupied 
+WHERE id = :id');
+    $stmt->bindParam('id', $id);
+    foreach (['type', 'number', 'occupied'] as $placeholder) {
+        if (!isset($fieldValues[$placeholder])){
+            $stmt->bindParam($placeholder, $this->$placeholder);
+            continue;
+        }
+        $stmt->bindParam($placeholder, $fieldValues[$placeholder]);
+    }
+    if (!$stmt->execute()) {
+        throw new \LogicException($stmt->errorInfo()[2]);
+    }
+    return $stmt->execute();
 }
 
     public function delete(int $id): bool
 {
-    // TODO: Implement delete() method.
+    $connection = database::getConnection();
+    $stmt = $connection->prepare('DELETE FROM parkplace WHERE id = :id');
+    return $stmt->execute(['id' => $id]);
 }
 
     /**
