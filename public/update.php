@@ -25,14 +25,17 @@ if (!empty($_POST['idToEdit']) && in_array($_POST['idToEdit'], $array)) {
 
     <h5>id: <?php echo $chosenId['id']; ?>, type: <?php echo $chosenId['type']; ?>, number: <?php echo $chosenId['number']; ?>, occupied: <?php echo $chosenId['occupied']; ?></h5>
     <form method="post">
-        <select name="type">
+        <select name="type" class="form-control">
             <option value="normal">Normal</option>
             <option value="VIP">VIP</option>
             <option value="woman">Woman</option>
             <option value="fire">Fire fighters</option>
         </select>
-        <input type="text" name="numberEdit" required/>
-        <input type="checkbox" name="occupied">
+        <input type="text" class="form-control" name="numberEdit" required/>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="occupied">
+            <label class="form-check-label">Is occupied?</label>
+        </div>
         <input type="hidden" name="needId" value="<?=$_POST['idToEdit']?>">
         <button class="btn btn-outline-dark">Submit</button>
     </form>
