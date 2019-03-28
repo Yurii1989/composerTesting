@@ -12,48 +12,49 @@ class ParkPlace implements CrudInterface
     private $number;
     private $occupied = false;
 
-public function create(array $fieldValues): int
-{
-    $connection = database::getConnection();
-    $stmt = $connection->prepare('INSERT INTO parkplace(type, number, occupied) 
+    public function create(array $fieldValues): int
+    {
+        $connection = database::getConnection();
+        $stmt = $connection->prepare('INSERT INTO parkplace(type, number, occupied) 
   VALUE (:type, :number, :occupied)');
-    foreach (['type', 'number', 'occupied'] as $placeholder) {
-        if (!isset($fieldValues[$placeholder])){
-        $stmt->bindParam($placeholder, $this->$placeholder);
-        continue;
+        foreach (['type', 'number', 'occupied'] as $placeholder) {
+            if (!isset($fieldValues[$placeholder])) {
+                $stmt->bindParam($placeholder, $this->$placeholder);
+                continue;
+            }
+            $stmt->bindParam($placeholder, $fieldValues[$placeholder]);
         }
-        $stmt->bindParam($placeholder, $fieldValues[$placeholder]);
+        if (!$stmt->execute()) {
+            throw new \LogicException($stmt->errorInfo()[2]);
+        }
+        return $connection->lastInsertId();
     }
-    if (!$stmt->execute()) {
-    throw new \LogicException($stmt->errorInfo()[2]);
-}
-    return $connection->lastInsertId();
-}
-public static function read(int $id)
-{
-    $connection = database::getConnection();
-    $stmt = $connection->prepare('SELECT * FROM parkplace WHERE id = :ID');
-    $stmt->bindParam('ID', $id);
-    if (!$stmt->execute()) {
-        throw new \LogicException($stmt->errorInfo()[2]);
+
+    public static function read(int $id)
+    {
+        $connection = database::getConnection();
+        $stmt = $connection->prepare('SELECT * FROM parkplace WHERE id = :ID');
+        $stmt->bindParam('ID', $id);
+        if (!$stmt->execute()) {
+            throw new \LogicException($stmt->errorInfo()[2]);
+        }
+        $stmt->execute();
+        return $stmt->fetch();
     }
-    $stmt->execute();
-    return $stmt->fetch(\PDO::FETCH_CLASS, self::class);
-}
 
     /**
      * @return array
      * @throws \LogicException In case of execution failure
      */
-public static function readAll(): array
-{
-    $connection = database::getConnection();
-    $stmt = $connection->prepare('SELECT * FROM parkplace');
-    if (!$stmt->execute()) {
-        throw new \LogicException($stmt->errorInfo()[2]);
-    }
-    $stmt->execute();
-    return $stmt->fetchAll(\PDO::FETCH_CLASS, self::class);
+    public static function readAll(): array
+    {
+        $connection = database::getConnection();
+        $stmt = $connection->prepare('SELECT * FROM parkplace');
+        if (!$stmt->execute()) {
+            throw new \LogicException($stmt->errorInfo()[2]);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, self::class);
 
 //    $final=[];
 //    foreach ($results as $result) {
@@ -66,35 +67,33 @@ public static function readAll(): array
 //    }
 //    return $final;
 
-}
+    }
 
-public function update(int $id, array $fieldValues): bool
-{
-    $connection = database::getConnection();
-    $stmt = $connection->prepare('UPDATE parkplace SET type = :type,
+    public function update(int $id, array $fieldValues): bool
+    {
+        $connection = database::getConnection();
+        $stmt = $connection->prepare('UPDATE parkplace SET type = :type,
                      number = :number,
                      occupied = :occupied 
-WHERE id = :id');
-    $stmt->bindParam('id', $id);
-    foreach (['type', 'number', 'occupied'] as $placeholder) {
-        if (!isset($fieldValues[$placeholder])){
-            $stmt->bindParam($placeholder, $this->$placeholder);
-            continue;
+                     WHERE id = :id');
+        $stmt->bindParam('id', $id);
+        foreach (['type', 'number', 'occupied'] as $placeholder) {
+            if (!isset($fieldValues[$placeholder])) {
+                $stmt->bindParam($placeholder, $this->$placeholder);
+                continue;
+            }
+            $stmt->bindParam($placeholder, $fieldValues[$placeholder]);
         }
-        $stmt->bindParam($placeholder, $fieldValues[$placeholder]);
+
+        return $stmt->execute();
     }
-    if (!$stmt->execute()) {
-        throw new \LogicException($stmt->errorInfo()[2]);
-    }
-    return $stmt->execute();
-}
 
     public function delete(int $id): bool
-{
-    $connection = database::getConnection();
-    $stmt = $connection->prepare('DELETE FROM parkplace WHERE id = :id');
-    return $stmt->execute(['id' => $id]);
-}
+    {
+        $connection = database::getConnection();
+        $stmt = $connection->prepare('DELETE FROM parkplace WHERE id = :id');
+        return $stmt->execute(['id' => $id]);
+    }
 
     /**
      * @return mixed
