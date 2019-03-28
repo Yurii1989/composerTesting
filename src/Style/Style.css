@@ -1,7 +1,10 @@
 body {
     background-image: url("../img/auto-automobile-automotive-919073.jpg");
-    
+}
 
+h1 {
+    color: white;
+    opacity: 0.9;
 }
 
 .card-body{
@@ -44,4 +47,9 @@ img:hover {
     display: flex;
     justify-content: center;
     margin: 5px auto;
+}
+#list-style {
+    width: 90%;
+    margin: 1rem auto;
+    opacity: 0.85;
 }
