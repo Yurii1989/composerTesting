@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__. "/../config/bootstrap.php";
+require_once __DIR__ . "/../config/bootstrap.php";
 
 $data = \Model\ParkPlace::readAll();
 echo "<table id='list-style' class='table table-striped table-dark'><tr>
